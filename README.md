@@ -1,2 +1,1 @@
-[Design.png
-](https://github.com/AshishRepo08/5---World-Cup-Ticket-Platform/blob/2ea209f1ab078e40c58f9c26ba4b879d251df706/Design.png)
+<img width="1840" height="1060" alt="System Diagram" src="https://github.com/AshishRepo08/5---World-Cup-Ticket-Platform/blob/a46f704968a468d09e013c97eaa9f3177b1a87da/Design.png" />
