@@ -1,0 +1,22 @@
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Java build
+target/
+build/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker runtime data (IMPORTANT for your issue)
+**/docker/mysql_data/
+
+**/mysql/
+**/mysql_data/
+**/*.sock
