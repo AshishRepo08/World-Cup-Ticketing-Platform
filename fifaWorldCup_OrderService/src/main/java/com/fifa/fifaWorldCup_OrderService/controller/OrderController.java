@@ -1,7 +1,9 @@
 package com.fifa.fifaWorldCup_OrderService.controller;
 
 import com.fifa.fifaWorldCup_OrderService.dto.OrderRequest;
+import com.fifa.fifaWorldCup_OrderService.entity.Order;
 import com.fifa.fifaWorldCup_OrderService.service.OrderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +16,11 @@ public class OrderController {
 
     @PostMapping("/new")
     @ResponseStatus(HttpStatus.CREATED)
-    public String placeOrder(@RequestBody OrderRequest orderRequest) {
+    public Order placeOrder(@Valid @RequestBody OrderRequest orderRequest) {
         System.out.println("In Controller: "+orderRequest);
-        orderService.placeOrder(orderRequest);
-        return "Order Placed Successfully";
+
+        Order newlyCreatedOrder = orderService.placeOrder(orderRequest);
+        return newlyCreatedOrder;
     }
 
 }

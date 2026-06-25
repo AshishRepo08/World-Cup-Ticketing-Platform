@@ -6,11 +6,7 @@ import com.fifa.FifaWorldCupMatchSchedule.model.Match;
 import com.fifa.FifaWorldCupMatchSchedule.repository.MatchScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
@@ -26,19 +22,19 @@ public class MatchScheduleService {
                 .name(matchRequest.name())
                 .firstTeam(matchRequest.firstTeam())
                 .secondTeam(matchRequest.secondTeam())
-                .Group(matchRequest.Group())
+                .groupName(matchRequest.Group())
                 .price(matchRequest.price())
                 .build();
         matchScheduleRepository.save(match);
 
         log.info("Match created successfully");
-        return new MatchResponse(match.getId(), match.getName(), match.getFirstTeam(), match.getSecondTeam(), match.getGroup(), match.getPrice());
+        return new MatchResponse(match.getId(), match.getName(), match.getFirstTeam(), match.getSecondTeam(), match.getGroupName(), match.getPrice());
     }
 
     public List<MatchResponse> getAllMatches() {
         return matchScheduleRepository.findAll()
                 .stream()
-                .map(match -> new MatchResponse(match.getId(), match.getName(), match.getFirstTeam(), match.getSecondTeam(), match.getGroup(), match.getPrice()))
+                .map(match -> new MatchResponse(match.getId(), match.getName(), match.getFirstTeam(), match.getSecondTeam(), match.getGroupName(), match.getPrice()))
                 .toList();
     }
 }

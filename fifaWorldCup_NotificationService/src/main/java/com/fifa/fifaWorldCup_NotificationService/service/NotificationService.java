@@ -25,10 +25,10 @@ public class NotificationService {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom("fifaWorldCupTicketSupport@gmail.com");
-            messageHelper.setTo(orderPlacedEvent.getEmail().toString()); //orderPlacedEvent.getEmail().toString()
+            messageHelper.setTo(orderPlacedEvent.getEmail()); //orderPlacedEvent.getEmail().toString()
             messageHelper.setSubject(String.format("Your Order With Order Number %s is placed successfully", orderPlacedEvent.getOrderNumber()));
             messageHelper.setText(String.format("""
-                    Hi %s,%s
+                    Hi %s %s
                     
                     Your order with order number %s is now placed successfully.
                     

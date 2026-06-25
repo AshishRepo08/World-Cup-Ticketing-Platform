@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InventoryRepository extends JpaRepository<Match, Long> {
     boolean existsBySkuCodeAndTicketsLeftGreaterThanEqual(String skuCode, Integer ticketsNeeded);
+    Match findBySkuCode(String skuCode);
 }

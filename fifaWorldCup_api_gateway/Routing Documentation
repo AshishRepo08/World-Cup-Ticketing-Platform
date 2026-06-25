@@ -1,0 +1,8 @@
+Gateway base URL:
+http://localhost:9000/buytickets
+
+Match Schedule:
+GET http://localhost:9000/buytickets/schedule/fifa-world-cup/hello
+
+Order:
+POST http://localhost:9000/buytickets/order/new

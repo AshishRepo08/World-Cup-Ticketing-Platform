@@ -16,8 +16,9 @@ public class InventoryServiceClient {
 
     public boolean isInStock(@RequestParam String skuCode, @RequestParam Integer quantity) {
         System.out.println("Rest Client Method: Requesting quantity for product : "+skuCode);
+        String requestParameters = "/inventory?skuCode=" +skuCode +"&ticketsNeeded="+quantity;
 
-        boolean result = restClient.get().uri("/inventory?skuCode=Spain vs Saudi Arabia&ticketsNeeded=90").retrieve().body(new ParameterizedTypeReference<Boolean>() {});
+        boolean result = restClient.get().uri(requestParameters).retrieve().body(new ParameterizedTypeReference<Boolean>() {});
         return result;
     }
 }

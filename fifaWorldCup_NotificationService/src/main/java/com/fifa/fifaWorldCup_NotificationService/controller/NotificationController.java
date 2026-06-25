@@ -15,6 +15,8 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
+    /**
+     * Added For Testing
     @PostMapping
     public String sendEmail(@RequestBody OrderPlacedEvent orderPlacedEvent) {
         System.out.println(orderPlacedEvent);
@@ -22,6 +24,7 @@ public class NotificationController {
         log.info("Email Sent");
         return "Email Sent";
     }
+    **/
 
     @GetMapping
     public String hello() {

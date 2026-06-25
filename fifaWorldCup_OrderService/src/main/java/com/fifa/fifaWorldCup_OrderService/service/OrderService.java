@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -21,8 +22,8 @@ public class OrderService {
     private final InventoryServiceClient inventoryServiceClient;
     private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
 
-
-    public void placeOrder(OrderRequest orderRequest) {
+    @Transactional
+    public Order placeOrder(OrderRequest orderRequest) {
         var isProductInStock = inventoryServiceClient.isInStock(orderRequest.skuCode(), orderRequest.quantity());
 
         if (isProductInStock) {
@@ -46,6 +47,8 @@ public class OrderService {
             log.info("Start - Sending OrderPlacedEvent {} to kafka topic order-placed", orderPlacedEvent);
             kafkaTemplate.send("order-placed", orderPlacedEvent);
             log.info("End - Sending OrderPlacedEvent {} to kafka topic order-placed", orderPlacedEvent);
+
+            return order;
         }
         else {
             throw new RuntimeException("Product with skuCode " + orderRequest.skuCode() + " is not in the stock");

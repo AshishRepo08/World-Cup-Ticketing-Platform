@@ -2,6 +2,12 @@
 .idea/
 *.iml
 .vscode/
+.idea/
+target/
+**/docker/mysql_data/
+**/mysql/
+**/mysql_data/
+**/*.sock
 
 # Java build
 target/

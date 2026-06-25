@@ -1,5 +1,7 @@
 package com.fifa.FifaWorldCupMatchSchedule.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,10 +21,13 @@ public class Match {
     @Id
     private String id;
 
-
+    @NotBlank(message = "name should not be blank")
     private String name;
+
     private String firstTeam;
     private String secondTeam;
-    private String Group;
+    private String groupName;
+
+    @Positive(message = "price should be a positive value")
     private BigDecimal price;
 }

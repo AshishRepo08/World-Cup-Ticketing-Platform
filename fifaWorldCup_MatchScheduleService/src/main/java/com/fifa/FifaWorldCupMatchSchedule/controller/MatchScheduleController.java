@@ -16,6 +16,11 @@ public class MatchScheduleController {
 
     private final MatchScheduleService matchScheduleService;
 
+    @GetMapping("/hello")
+    public String sayHello() {
+        return "Welcome To The FIFA Schedule";
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public MatchResponse createMatch(@RequestBody MatchRequest matchRequest) {
@@ -25,11 +30,14 @@ public class MatchScheduleController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<MatchResponse> getAllMatches() {
+
         return matchScheduleService.getAllMatches();
     }
 
-    @GetMapping("/hello")
-    public String sayHello() {
-        return "Welcome To The FIFA Schedule";
-    }
+
+//    GET /fifa-world-cup/group/{groupName}
+//    GET /fifa-world-cup/team/{teamName}
+//    POST /fifa-world-cup
+//    PUT /fifa-world-cup/{id}
+//    DELETE /fifa-world-cup/{id}
 }
