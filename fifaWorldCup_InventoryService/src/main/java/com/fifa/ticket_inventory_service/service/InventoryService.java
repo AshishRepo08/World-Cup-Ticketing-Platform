@@ -1,9 +1,12 @@
 package com.fifa.ticket_inventory_service.service;
 
+import com.fifa.ticket_inventory_service.dto.InventoryReservationRequest;
+import com.fifa.ticket_inventory_service.dto.InventoryReservationResponse;
 import com.fifa.ticket_inventory_service.dto.MatchCreationDto;
 import com.fifa.ticket_inventory_service.dto.MatchCreationResponseDto;
 import com.fifa.ticket_inventory_service.entity.Match;
 import com.fifa.ticket_inventory_service.repository.InventoryRepository;
+import jakarta.persistence.Version;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -42,13 +45,17 @@ public class InventoryService {
     }
 
     @Transactional
-    public void reserveTicket(String skuCode, Integer ticketsNeeded) {
-        Match requestedMatch = inventoryRepository.findBySkuCode(skuCode);
+    @Version
+    public InventoryReservationResponse reserveTicket(InventoryReservationRequest reservationRequest) {
+        Match requestedMatch = inventoryRepository.findBySkuCode(reservationRequest.skuCode());
         log.info("Match Pre Ticket Reduction : "+requestedMatch);
 
-        requestedMatch.setTicketsLeft(requestedMatch.getTicketsLeft() - ticketsNeeded);
+        requestedMatch.setTicketsLeft(requestedMatch.getTicketsLeft() - reservationRequest.ticketsNeeded());
         log.info("Match Post Ticket Reduction : "+requestedMatch);
 
         inventoryRepository.save(requestedMatch);
+
+        InventoryReservationResponse reservationResponse = new InventoryReservationResponse(requestedMatch.getSkuCode(), reservationRequest.ticketsNeeded(), requestedMatch.getTicketsLeft(), "RESERVED");
+        return reservationResponse;
     }
 }

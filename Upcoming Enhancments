@@ -1,3 +1,5 @@
 1. Handle concurrency with optimistic/pessimistic locking in the order service
 2. Notification Service Improvement
     - No dead-letter topic -Failed email causes retry/failure problem
+3. All Services - Implementation of Mappers and Dtos to improve overall code quality
+4.

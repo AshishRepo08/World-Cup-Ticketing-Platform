@@ -1,6 +1,8 @@
 package com.fifa.fifaWorldCup_OrderService.dto;
 
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -21,15 +23,17 @@ public record OrderRequest(
         Integer quantity,
 
         @NotNull(message = "userDetails should not be blank while placing orders")
-        UserDetails userDetails
-) {
-    public record UserDetails(
-            @NotBlank(message = "User's email cannot be blank")
-            String email,
+        @Valid
+        UserDetails userDetails) {
 
-            @NotBlank(message = "User's first name cannot be blank")
-            String firstName,
+            public record UserDetails(
+                    @NotBlank(message = "User's email cannot be blank")
+                    @Email
+                    String email,
 
-            @NotBlank(message = "User's last name cannot be blank")
-            String lastName) {}
+                    @NotBlank(message = "User's first name cannot be blank")
+                    String firstName,
+
+                    @NotBlank(message = "User's last name cannot be blank")
+                    String lastName) {}
 }

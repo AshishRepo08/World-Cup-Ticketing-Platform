@@ -1,9 +1,12 @@
 package com.fifa.ticket_inventory_service.controller;
 
+import com.fifa.ticket_inventory_service.dto.InventoryReservationRequest;
+import com.fifa.ticket_inventory_service.dto.InventoryReservationResponse;
 import com.fifa.ticket_inventory_service.dto.MatchCreationDto;
 import com.fifa.ticket_inventory_service.dto.MatchCreationResponseDto;
 import com.fifa.ticket_inventory_service.entity.Match;
 import com.fifa.ticket_inventory_service.service.InventoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -30,12 +33,14 @@ public class InventoryController {
         System.out.println("In Stock Controller Method");
         Boolean result = inventoryService.isInStock(skuCode, ticketsNeeded);
 
-        //Reserved Tickets
-        if(result) {
-            inventoryService.reserveTicket(skuCode, ticketsNeeded);
-        }
-
         return result;
+    }
+
+    @PostMapping("/reserve")
+    public ResponseEntity<InventoryReservationResponse> reserveTickets(@Valid @RequestBody InventoryReservationRequest request) {
+        InventoryReservationResponse response = inventoryService.reserveTicket(request);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/create")
