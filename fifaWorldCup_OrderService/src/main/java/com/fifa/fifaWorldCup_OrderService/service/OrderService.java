@@ -29,35 +29,38 @@ public class OrderService {
 
     @Transactional
     public OrderConfirmationResponse placeOrder(OrderRequest orderRequest) {
-        log.info("Order placement started. skuCode={}, quantity={}", orderRequest.skuCode(), orderRequest.quantity());
+        log.info("Order placement started. skuCode={}, quantity={}",
+                orderRequest.skuCode(), orderRequest.quantity());
 
-        var isProductInStock = inventoryServiceClient.isInStock(orderRequest.skuCode(), orderRequest.quantity());
+        InventoryReservationResponse reservationResponse =
+                inventoryServiceClient.reserveTickets(
+                        orderRequest.skuCode(),
+                        orderRequest.quantity()
+                );
 
-        if(!isProductInStock) {
-            throw new OutOfStockException("Product with skuCode " + orderRequest.skuCode() + " is not in the stock");
-        }
+        if (reservationResponse == null ||
+                !"RESERVED".equalsIgnoreCase(reservationResponse.status())) {
 
-        InventoryReservationResponse reservationResponse = inventoryServiceClient.reserveTickets(
-                orderRequest.skuCode(),
-                orderRequest.quantity());
-
-        if (reservationResponse == null || !"RESERVED".equalsIgnoreCase(reservationResponse.status())) {
             throw new OutOfStockException(
                     "Tickets are not available for skuCode: " + orderRequest.skuCode()
             );
         }
 
-        //Create Order
         Order newOrder = orderMapper.fromOrderRequest(orderRequest);
-        orderRepository.save(newOrder);
 
+        Order savedOrder = orderRepository.save(newOrder);
 
-        //Create A Event
-        OrderPlacedEvent currentOrderEvent = orderMapper.toOrderPlacedEvent(newOrder, orderRequest);
-        log.info("Start - Sending OrderPlacedEvent {} to kafka topic order-placed", currentOrderEvent);
+        OrderPlacedEvent currentOrderEvent =
+                orderMapper.toOrderPlacedEvent(savedOrder, orderRequest);
+
+        log.info("Sending OrderPlacedEvent to Kafka. orderNumber={}",
+                savedOrder.getOrderNumber());
+
         kafkaTemplate.send("order-placed", currentOrderEvent);
-        log.info("End - Sending OrderPlacedEvent {} to kafka topic order-placed", currentOrderEvent);
 
-        return orderMapper.toOrderConfirmationResponse(newOrder);
+        log.info("OrderPlacedEvent sent successfully. orderNumber={}",
+                savedOrder.getOrderNumber());
+
+        return orderMapper.toOrderConfirmationResponse(savedOrder);
     }
 }

@@ -19,4 +19,7 @@ public class Match {
     private String skuCode;
     private Integer totalTickets;
     private Integer ticketsLeft;
+
+    @Version
+    private Long version;
 }

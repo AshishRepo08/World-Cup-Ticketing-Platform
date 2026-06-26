@@ -2,4 +2,4 @@
 2. Notification Service Improvement
     - No dead-letter topic -Failed email causes retry/failure problem
 3. All Services - Implementation of Mappers and Dtos to improve overall code quality
-4.
+4. Sage Pattern Implementation - During Reserve and Order Creation

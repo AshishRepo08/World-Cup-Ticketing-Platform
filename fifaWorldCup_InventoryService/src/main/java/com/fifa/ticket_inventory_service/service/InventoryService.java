@@ -45,17 +45,38 @@ public class InventoryService {
     }
 
     @Transactional
-    @Version
     public InventoryReservationResponse reserveTicket(InventoryReservationRequest reservationRequest) {
         Match requestedMatch = inventoryRepository.findBySkuCode(reservationRequest.skuCode());
-        log.info("Match Pre Ticket Reduction : "+requestedMatch);
 
-        requestedMatch.setTicketsLeft(requestedMatch.getTicketsLeft() - reservationRequest.ticketsNeeded());
-        log.info("Match Post Ticket Reduction : "+requestedMatch);
+        if (requestedMatch == null) {
+            return new InventoryReservationResponse(
+                    reservationRequest.skuCode(),
+                    0,
+                    0,
+                    "NOT_FOUND"
+            );
+        }
 
-        inventoryRepository.save(requestedMatch);
+        if (requestedMatch.getTicketsLeft() < reservationRequest.ticketsNeeded()) {
+            return new InventoryReservationResponse(
+                    requestedMatch.getSkuCode(),
+                    0,
+                    requestedMatch.getTicketsLeft(),
+                    "OUT_OF_STOCK"
+            );
+        }
 
-        InventoryReservationResponse reservationResponse = new InventoryReservationResponse(requestedMatch.getSkuCode(), reservationRequest.ticketsNeeded(), requestedMatch.getTicketsLeft(), "RESERVED");
-        return reservationResponse;
+        requestedMatch.setTicketsLeft(
+                requestedMatch.getTicketsLeft() - reservationRequest.ticketsNeeded()
+        );
+
+        Match savedMatch = inventoryRepository.save(requestedMatch);
+
+        return new InventoryReservationResponse(
+                savedMatch.getSkuCode(),
+                reservationRequest.ticketsNeeded(),
+                savedMatch.getTicketsLeft(),
+                "RESERVED"
+        );
     }
 }
