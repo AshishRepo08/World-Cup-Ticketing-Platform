@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 
-public record OrderRequest(
+public record OrderRequestDto(
 
         @NotBlank(message = "skuCode cannot be blank in OrderRequest Dto")
         String skuCode,

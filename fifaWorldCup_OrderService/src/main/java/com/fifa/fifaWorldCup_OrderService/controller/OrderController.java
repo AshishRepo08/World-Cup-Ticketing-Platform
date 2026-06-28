@@ -1,8 +1,7 @@
 package com.fifa.fifaWorldCup_OrderService.controller;
 
 import com.fifa.fifaWorldCup_OrderService.dto.OrderConfirmationResponse;
-import com.fifa.fifaWorldCup_OrderService.dto.OrderRequest;
-import com.fifa.fifaWorldCup_OrderService.entity.Order;
+import com.fifa.fifaWorldCup_OrderService.dto.OrderRequestDto;
 import com.fifa.fifaWorldCup_OrderService.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +16,10 @@ public class OrderController {
 
     @PostMapping("/new")
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderConfirmationResponse placeOrder(@Valid @RequestBody OrderRequest orderRequest) {
-        System.out.println("In Controller: "+orderRequest);
+    public OrderConfirmationResponse placeOrder(@Valid @RequestBody OrderRequestDto orderRequestDto) {
+        System.out.println("In Controller: "+orderRequestDto);
 
-        OrderConfirmationResponse confirmationResponse = orderService.placeOrder(orderRequest);
+        OrderConfirmationResponse confirmationResponse = orderService.placeOrder(orderRequestDto);
         return confirmationResponse;
     }
 

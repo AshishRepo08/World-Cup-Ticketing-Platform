@@ -6,6 +6,7 @@ import com.fifa.ticket_inventory_service.dto.MatchCreationDto;
 import com.fifa.ticket_inventory_service.dto.MatchCreationResponseDto;
 import com.fifa.ticket_inventory_service.entity.Match;
 import com.fifa.ticket_inventory_service.repository.InventoryRepository;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import jakarta.persistence.Version;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,7 @@ public class InventoryService {
     }
 
     @Transactional
+    @RateLimiter(name = "inventoryRateLimiter", fallbackMethod = "rateLimiterFallBack")
     public InventoryReservationResponse reserveTicket(InventoryReservationRequest reservationRequest) {
         Match requestedMatch = inventoryRepository.findBySkuCode(reservationRequest.skuCode());
 
@@ -78,5 +80,10 @@ public class InventoryService {
                 savedMatch.getTicketsLeft(),
                 "RESERVED"
         );
+    }
+
+    public InventoryReservationResponse rateLimiterFallBack(InventoryReservationRequest reservationRequest, Throwable throwable) {
+        log.error("Fallback occurred due to : {}", throwable.getMessage());
+        return  new InventoryReservationResponse(null,null,null,null);
     }
 }

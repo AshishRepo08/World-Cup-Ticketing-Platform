@@ -1,0 +1,19 @@
+resilience4j:
+  retry:
+    instances:
+      inventoryRetry:
+        max-attempts: 4
+        wait-duration: 1s
+        retry-exceptions:
+          - org.springframework.web.client.ResourceAccessException
+          - java.net.ConnectException
+
+#Actuator Configurations
+management:
+  endpoint:
+    metrics:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'

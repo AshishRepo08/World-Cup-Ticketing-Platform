@@ -1,7 +1,7 @@
 package com.fifa.fifaWorldCup_OrderService.mappers.impl;
 
 import com.fifa.fifaWorldCup_OrderService.dto.OrderConfirmationResponse;
-import com.fifa.fifaWorldCup_OrderService.dto.OrderRequest;
+import com.fifa.fifaWorldCup_OrderService.dto.OrderRequestDto;
 import com.fifa.fifaWorldCup_OrderService.entity.Order;
 import com.fifa.fifaWorldCup_OrderService.event.OrderPlacedEvent;
 import com.fifa.fifaWorldCup_OrderService.mappers.OrderMapper;
@@ -12,7 +12,7 @@ import java.util.UUID;
 @Component
 public class OrderMapperImpl implements OrderMapper {
     @Override
-    public Order fromOrderRequest(OrderRequest orderRequest) {
+    public Order fromOrderRequest(OrderRequestDto orderRequest) {
         Order order = new Order();
 
         order.setOrderNumber(UUID.randomUUID().toString());
@@ -38,7 +38,7 @@ public class OrderMapperImpl implements OrderMapper {
     }
 
     @Override
-    public OrderPlacedEvent toOrderPlacedEvent(Order newOrder, OrderRequest orderRequest) {
+    public OrderPlacedEvent toOrderPlacedEvent(Order newOrder, OrderRequestDto orderRequest) {
         OrderPlacedEvent orderPlacedEvent = new OrderPlacedEvent();
         orderPlacedEvent.setOrderNumber(newOrder.getOrderNumber());
         orderPlacedEvent.setEmail(orderRequest.userDetails().email());

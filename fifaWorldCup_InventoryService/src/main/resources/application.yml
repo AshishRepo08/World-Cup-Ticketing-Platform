@@ -1,0 +1,7 @@
+resilience4j:
+  ratelimiter:
+    instances:
+      inventoryRateLimiter:
+        limitRefreshPeriod: 600s
+        limitForPeriod: 1
+        timeoutDuration: 1s

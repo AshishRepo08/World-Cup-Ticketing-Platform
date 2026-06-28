@@ -1,5 +1,9 @@
-1. Handle concurrency with optimistic/pessimistic locking in the order service
-2. Notification Service Improvement
+Planned:
+    - Handle concurrency with optimistic/pessimistic locking in the order service
+    -  Notification Service Improvement
     - No dead-letter topic -Failed email causes retry/failure problem
-3. All Services - Implementation of Mappers and Dtos to improve overall code quality
-4. Sage Pattern Implementation - During Reserve and Order Creation
+    - All Services - Implementation of Mappers and Dtos to improve overall code quality
+    - Sage Pattern Implementation - During Reserve and Order Creation
+
+Completed:
+    - Resilience4J Circuit Breaker Retry Implementation On placeOrder() Service method - Completed

@@ -1,0 +1,35 @@
+{
+    "retryEvents": [
+            {
+                "creationTime": "2026-06-28T12:48:10.237892+05:30[Asia/Calcutta]",
+                "errorMessage": "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://localhost:8082/inventory/reserve\": null",
+                "numberOfAttempts": 1,
+                "retryName": "inventoryRetry",
+                "type": "RETRY"
+            },
+
+            {
+            "creationTime": "2026-06-28T12:48:11.259957700+05:30[Asia/Calcutta]",
+            "errorMessage": "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://localhost:8082/inventory/reserve\": null",
+            "numberOfAttempts": 2,
+            "retryName": "inventoryRetry",
+            "type": "RETRY"
+            },
+
+            {
+            "creationTime": "2026-06-28T12:48:12.279230600+05:30[Asia/Calcutta]",
+            "errorMessage": "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://localhost:8082/inventory/reserve\": null",
+            "numberOfAttempts": 3,
+            "retryName": "inventoryRetry",
+            "type": "RETRY"
+            },
+
+            {
+            "creationTime": "2026-06-28T12:48:13.305143200+05:30[Asia/Calcutta]",
+            "errorMessage": "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://localhost:8082/inventory/reserve\": null",
+            "numberOfAttempts": 4,
+            "retryName": "inventoryRetry",
+            "type": "ERROR"
+            }
+        ]
+}
